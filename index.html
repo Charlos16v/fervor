@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fervor</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="assets/favicon.ICO">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 900;
+    }
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s;
+      cursor: default; /* <-- O elimina cursor:pointer aquí si lo tienes */
+      overflow: hidden;
+    }
+    .carousel-bg {
+      position: absolute;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .carousel-track {
+      display: flex;
+      width: 300vw; /* Ajusta según el número de imágenes */
+      height: 100%;
+      animation: carousel-move 30s linear infinite;
+    }
+    .carousel-track img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      flex-shrink: 0;
+      /* opacity: 0.5; */
+      /* filter: blur(2px) brightness(0.8); */
+    }
+    @keyframes carousel-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-200vw); } /* Ajusta según el número de imágenes únicas */
+    }
+    .splash-logo {
+      position: relative;
+      z-index: 2;
+      width: 60vw;
+      max-width: 350px;
+      min-width: 100px;
+      height: auto;
+      display: block;
+      transition: transform 0.2s;
+      cursor: pointer; /* <-- Añade esto aquí */
+    }
+    .splash-logo:hover {
+      transform: scale(1.03);
+    }
+    #mainContent {
+      display: none;
+    }
+    header {
+      position: relative;
+      min-height: 80px; /* Ajusta según el alto de tu logo */
+    }
+    .header-flex {
+      display: flex;
+      flex-direction: row;
+      align-items: center;         /* Centra verticalmente */
+      justify-content: center;     /* Centra horizontalmente */
+      gap: 3rem;                   /* Espacio entre logo y enlace */
+      padding: 2rem 2rem 0 2rem;
+      /* min-height: 120px; */
+      border-bottom: 1px solid #ddd;
+    }
+    .logo-header {
+      width: 180px;
+      height: auto;
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+    }
+    .about-link {
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.95rem;
+      color: #111;
+      text-decoration: none;
+      font-weight: 900;
+      background: none;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      transition: none;
+      cursor: pointer;
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="splash" title="Haz click para entrar">
+    <div class="carousel-bg">
+      <div class="carousel-track" id="carouselTrack">
+        <!-- Las imágenes se insertarán aquí por JS -->
+      </div>
+    </div>
+    <img src="assets/title.png" alt="FERVOR logo" class="splash-logo" />
+  </div>
+  <div id="mainContent">
+    <header style="position: relative; min-height: 120px; border-bottom: 1px solid #ddd;">
+      <img src="assets/title_black.png" alt="FERVOR" class="logo-header"/>
+      <a href="about.html" class="about-link">SOBRE NOSOTROS</a>
+    </header>
+    <main>
+      <section class="grid" id="revistaGrid"></section>
+    </main>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </div>
+  <script>
+  const carouselImages = [
+    "assets/carrousel/1.jpg",
+    "assets/carrousel/2.jpg",
+    "assets/carrousel/3.jpg",
+    "assets/carrousel/4.jpg",
+    "assets/carrousel/5.jpg",
+    "assets/carrousel/6.jpg",
+    "assets/carrousel/7.jpg"
+  ];
+
+  // Baraja el array (Fisher-Yates)
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Baraja e inserta las imágenes
+  const shuffled = shuffle([...carouselImages]);
+  const track = document.getElementById('carouselTrack');
+  shuffled.forEach(src => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = "";
+    track.appendChild(img);
+  });
+
+  // Ajusta el ancho del track y la animación según el número de imágenes
+  track.style.width = `${shuffled.length * 100}vw`;
+  track.style.animation = `carousel-move ${shuffled.length * 10}s linear infinite`;
+
+  // Crea la animación dinámicamente
+  const styleSheet = document.createElement('style');
+  styleSheet.innerHTML = `
+    @keyframes carousel-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-${(shuffled.length - 1) * 100}vw); }
+    }
+  `;
+  document.head.appendChild(styleSheet);
+
+  // Splash solo al hacer click en el logo
+  document.querySelector('.splash-logo').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('splash').style.opacity = '0';
+    setTimeout(() => {
+      document.getElementById('splash').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+    }, 500);
+  });
+  </script>
+</body>
+</html>

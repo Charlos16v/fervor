@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f8f8;
+  color: #111;
+}
+header {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+}
+h1 {
+  font-size: 5rem;
+  font-weight: 600;
+}
+main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10rem;
+}
+.card {
+  background-color: white;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+.card img {
+  width: 100%;
+  display: block;
+  height: auto;
+}
+.card-content {
+  padding: 1rem;
+}
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+.card-date {
+  font-size: 0.85rem;
+  color: #666;
+}
+.detalle {
+  max-width: 700px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.detalle img {
+  width: 40%;
+  border-radius: 8px;
+}
+.detalle h2 {
+  margin-top: 1rem;
+}
+button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #333;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+input, textarea {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.logo-header {
+  width: 180px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}

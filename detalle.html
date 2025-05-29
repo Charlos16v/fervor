@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>fervor</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="assets/favicon.ICO">
+</head>
+<body>
+  <header>
+    <a href="index.html">
+      <img src="assets/title.png" alt="FERVOR" class="logo-header"/>
+    </a>
+  </header>
+  <main class="detalle" id="detalleRevista"></main>
+  <script src="data.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get('id'));
+    const revista = revistas.find(r => r.id === id);
+    const contenedor = document.getElementById('detalleRevista');
+    if (revista) {
+      contenedor.innerHTML = `
+        <img src="${revista.imagen}" alt="${revista.titulo}" />
+        <h2>${revista.titulo}</h2>
+        <p>Fecha de publicación: ${revista.fecha}</p>
+        <p>Descripción breve de la revista artística. Puedes personalizar este texto.</p>
+        <a href="compra.html"><button>Comprar</button></a>
+      `;
+    } else {
+      contenedor.innerHTML = '<p>Revista no encontrada</p>';
+    }
+  </script>
+</body>
+</html>
