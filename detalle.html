@@ -12,24 +12,171 @@
       <img src="assets/title.png" alt="FERVOR" class="logo-header"/>
     </a>
   </header>
-  <main class="detalle" id="detalleRevista"></main>
+  <main class="detalle">
+    <a href="index.html" class="detalle-back" title="Volver atrás">
+      <span class="arrow-back">&#8592;</span>
+    </a>
+    <img id="detallePortada" class="detalle-portada" style="margin-top:2.5rem;" />
+    <div class="detalle-info" id="detalleRevista"></div>
+  </main>
   <script src="data.js"></script>
   <script>
     const params = new URLSearchParams(window.location.search);
     const id = parseInt(params.get('id'));
     const revista = revistas.find(r => r.id === id);
+    const portada = document.getElementById('detallePortada');
     const contenedor = document.getElementById('detalleRevista');
     if (revista) {
+      portada.src = revista.imagen;
+      portada.alt = revista.titulo;
+      let descripcion = "Descripción breve de la revista artística. Puedes personalizar este texto.";
+      let descripcionClass = "";
+      if (revista.id === 3) {
+        descripcion = `
+          <strong>FERVOR Nº1</strong> es el comienzo. Un nacimiento con fuerza, desde Mallorca y con voz propia. 
+          Este primer número reúne a autores, la mayoría mujeres, que comparten su mirada a través de diferentes secciones. 
+          Una declaración de intenciones: aquí empieza algo que quiere quedarse.
+          <br><br>
+          <strong>Fotografía:</strong> Marga Moner, Aitana del Sol, Héctor Soto, Maya Bradburn, Lara Rios
+        `;
+        descripcionClass = "descripcion-fervor1";
+      }
       contenedor.innerHTML = `
-        <img src="${revista.imagen}" alt="${revista.titulo}" />
-        <h2>${revista.titulo}</h2>
-        <p>Fecha de publicación: ${revista.fecha}</p>
-        <p>Descripción breve de la revista artística. Puedes personalizar este texto.</p>
-        <a href="compra.html"><button>Comprar</button></a>
+        <div class="detalle-titulo">${revista.titulo}</div>
+        <div class="detalle-precio-compra">
+          <span class="detalle-precio">8,50&nbsp;€</span>
+          <a href="compra.html"><button>Comprar</button></a>
+        </div>
+        <div class="detalle-fecha">Fecha de publicación: ${revista.fecha}</div>
+        <div class="${descripcionClass}">${descripcion}</div>
       `;
     } else {
+      portada.style.display = "none";
       contenedor.innerHTML = '<p>Revista no encontrada</p>';
     }
   </script>
+  <style>
+    .detalle {
+      max-width: 1000px;
+      min-width: 320px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2.5rem 3.5rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 2.5rem;
+      position: relative;
+    }
+    .detalle-portada {
+      flex-shrink: 0;
+      width: 260px;
+      max-width: 260px;
+      border-radius: 12px;
+      margin-bottom: 0;
+      display: block;
+      object-fit: cover;
+      align-self: flex-start;
+      margin-top: 0; /* Elimina cualquier desplazamiento hacia abajo */
+    }
+    .detalle-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      justify-content: flex-start;
+      margin-top: 2.5rem; /* Ajusta este valor para alinear con la imagen */
+    }
+    .detalle-titulo {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      width: 100%;
+      text-align: left;
+    }
+    .detalle-precio-compra {
+      width: 100%;
+      margin-bottom: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .detalle-precio {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    .detalle button {
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: none;
+      background: #111;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-left: 0;
+    }
+    .detalle button:hover {
+      background: #d32f2f;
+    }
+    .detalle-fecha {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 1.2rem;
+      width: 100%;
+      text-align: left;
+    }
+    .descripcion-fervor1 {
+      font-family: 'Times New Roman', Times, serif;
+      text-align: justify;
+      font-size: 1.08rem;
+      margin-bottom: 0.8rem;
+      width: 100%;
+    }
+    .detalle-back {
+      position: absolute;
+      top: 1rem;
+      left: 1.5rem;
+      text-decoration: none;
+      color: #111;
+      font-weight: 900;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      box-shadow: none;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      z-index: 10;
+    }
+    .arrow-back {
+      font-size: 2.2rem;
+      font-weight: bold;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    @media (max-width: 600px) {
+      .detalle {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      .detalle-portada {
+        width: 100%;
+        max-width: 220px;
+        margin-bottom: 1rem;
+      }
+      .detalle-info {
+        width: 100%;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </body>
 </html>
